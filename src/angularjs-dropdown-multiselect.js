@@ -147,7 +147,7 @@ directiveModule.directive('ngDropdownMultiselect', ['$filter', '$document', '$co
                 }
 
                 if ($scope.settings.closeOnBlur) {
-                    $document.on('click', function (e) {
+                    $document.on('click.ngDropdownMultiselect', function (e) {
                         var target = e.target.parentElement;
                         var parentFound = false;
 
@@ -287,6 +287,12 @@ directiveModule.directive('ngDropdownMultiselect', ['$filter', '$document', '$co
 
                     return _.findIndex($scope.selectedModel, getFindObj(id)) !== -1;
                 };
+
+                $scope.$on('$destroy', function () {
+                    $dropdownTrigger = null;
+
+                    $document.off('click.ngDropdownMultiselect');
+                });
 
                 $scope.externalEvents.onInitDone();
             }
